@@ -1,4 +1,12 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+
+process.env.OPENAI_API_KEY = 'sk-test';
+
+vi.mock('openai', () => ({
+  OpenAIApi: class {},
+  Configuration: class {},
+}));
+
 import { validateEmailAddress, checkSpamScore } from '../services/personalization';
 
 describe('personalization utils', () => {
