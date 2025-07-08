@@ -1,6 +1,19 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import Stripe from 'stripe';
-import { stripe, createCheckoutSession, createBillingPortalSession, verifyWebhookSignature } from '../services/billing';
+
+let stripe: Stripe;
+let createCheckoutSession: typeof import('../services/billing').createCheckoutSession;
+let createBillingPortalSession: typeof import('../services/billing').createBillingPortalSession;
+let verifyWebhookSignature: typeof import('../services/billing').verifyWebhookSignature;
+
+beforeAll(async () => {
+  process.env.STRIPE_SECRET_KEY = 'sk_test_123';
+  const billing = await import('../services/billing');
+  stripe = billing.stripe;
+  createCheckoutSession = billing.createCheckoutSession;
+  createBillingPortalSession = billing.createBillingPortalSession;
+  verifyWebhookSignature = billing.verifyWebhookSignature;
+});
 
 describe('billing service', () => {
   it('creates checkout session', async () => {
