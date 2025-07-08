@@ -1,5 +1,4 @@
 'use client';
-import { useState } from 'react';
 import { BarChart3, Mail, Users, TrendingUp, ClipboardList } from 'lucide-react';
 
 export function MetricCards() {

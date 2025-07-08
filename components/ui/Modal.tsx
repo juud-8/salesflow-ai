@@ -1,7 +1,6 @@
 'use client';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 export function Modal({
   title,

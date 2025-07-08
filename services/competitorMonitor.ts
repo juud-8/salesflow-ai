@@ -50,7 +50,6 @@ function extractFeatures(html: string): string[] {
   const featureRegex = /<li[^>]*>(.*?)<\/li>/g;
   const features: string[] = [];
   let match;
-  // eslint-disable-next-line no-cond-assign
   while ((match = featureRegex.exec(html))) {
     features.push(match[1]);
   }
