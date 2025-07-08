@@ -33,3 +33,7 @@ Copy `.env.example` to `.env` and provide values for all variables before runnin
 ## Email Automation
 
 This project includes an email automation system powered by Resend and OpenAI. Templates and sequences can be managed via `/api/templates` and `/api/sequences`. Performance metrics are available from `/api/tracking` and webhooks from Resend are handled at `/api/webhooks/resend`.
+
+## Billing with Stripe
+
+Pricing plans are defined in Stripe and exposed via the `/pricing` page. Checkout sessions are created with `/api/billing/checkout` and customers can manage their subscriptions in the portal via `/api/billing/portal`. Webhook events from Stripe are received at `/api/webhooks/stripe` and should be configured with the signing secret from `STRIPE_WEBHOOK_SECRET`.

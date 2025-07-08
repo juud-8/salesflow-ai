@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createSupabaseBrowserClient } from '@/lib/supabase-browser';
 
@@ -22,7 +21,6 @@ type FormData = z.infer<typeof schema>;
 
 export default function SignupPage() {
   const supabase = createSupabaseBrowserClient();
-  const router = useRouter();
   const {
     register,
     handleSubmit,
