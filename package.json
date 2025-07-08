@@ -1,0 +1,44 @@
+{
+  "name": "salesflow-ai",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.56.0",
+    "@prisma/client": "^6.11.1",
+    "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@stripe/stripe-js": "^7.4.0",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/supabase-js": "^2.50.3",
+    "@tanstack/react-query": "^5.81.5",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.525.0",
+    "next": "14.2.0",
+    "openai": "^5.8.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.60.0",
+    "resend": "^4.6.0",
+    "stripe": "^18.3.0",
+    "swr": "^2.3.4",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.5",
+    "prisma": "^6.11.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
