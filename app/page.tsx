@@ -1,8 +1,22 @@
 import Image from "next/image";
+import Link from "next/link";
+import { useUser } from "@/components/user-context";
 
 export default function Home() {
+  const { user, signOut } = useUser();
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <header className="self-start w-full flex justify-end">
+        {user ? (
+          <button onClick={signOut} className="text-sm underline">
+            Sign out
+          </button>
+        ) : (
+          <Link href="/auth/login" className="text-sm underline">
+            Login
+          </Link>
+        )}
+      </header>
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
