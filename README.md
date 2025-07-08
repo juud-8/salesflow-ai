@@ -29,3 +29,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 
 Copy `.env.example` to `.env` and provide values for all variables before running the app.
 
+
+## Email Automation
+
+This project includes an email automation system powered by Resend and OpenAI. Templates and sequences can be managed via `/api/templates` and `/api/sequences`. Performance metrics are available from `/api/tracking` and webhooks from Resend are handled at `/api/webhooks/resend`.
