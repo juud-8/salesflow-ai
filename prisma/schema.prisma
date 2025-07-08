@@ -1,16 +1,182 @@
- datasource db {
-   provider = "postgresql"
-   url      = env("DATABASE_URL")
- }
- 
- generator client {
-   provider = "prisma-client-js"
- }
- 
- model User {
-   id         String   @id @default(uuid())
-   created_at DateTime @default(now())
-   updated_at DateTime @updatedAt
-   email      String   @unique
-   name       String?
- }
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                  String    @id @default(uuid())
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+  deleted_at          DateTime?
+  auth_user_id        String    @unique
+  organization_id     String?
+  email               String    @unique
+  full_name           String?
+  avatar_url          String?
+  role                String?
+
+  organization        Organization?     @relation(fields: [organization_id], references: [id])
+  outreach_activities OutreachActivity[]
+  calls               Call[]
+  deals               Deal[]
+
+  @@index([organization_id])
+}
+
+model Organization {
+  id                     String    @id @default(uuid())
+  created_at             DateTime  @default(now())
+  updated_at             DateTime  @updatedAt
+  deleted_at             DateTime?
+  name                   String
+  domain                 String?
+  stripe_customer_id     String?   @unique
+  stripe_subscription_id String?
+  subscription_plan      String?
+  is_active              Boolean   @default(true)
+  settings               Json?
+
+  users                  User[]
+  leads                  Lead[]
+  competitors            Competitor[]
+  outreach_sequences     OutreachSequence[]
+  deals                  Deal[]
+
+  @@index([domain])
+  @@index([stripe_subscription_id])
+}
+
+model Lead {
+  id               String    @id @default(uuid())
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  deleted_at       DateTime?
+  organization_id  String?
+  first_name       String?
+  last_name        String?
+  email            String?
+  phone            String?
+  company_name     String?
+  company_website  String?
+  job_title        String?
+  lead_score       Int?
+  intent_signals   Json?
+  last_activity_at DateTime?
+
+  organization     Organization?     @relation(fields: [organization_id], references: [id])
+  outreach_activities OutreachActivity[]
+  calls            Call[]
+  deals            Deal[]
+
+  @@index([organization_id])
+  @@unique([organization_id, email])
+}
+
+model Competitor {
+  id                String    @id @default(uuid())
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+  deleted_at        DateTime?
+  organization_id   String
+  name              String
+  website           String?
+  monitored_urls    Json?
+  tracking_settings Json?
+
+  organization      Organization @relation(fields: [organization_id], references: [id])
+  snapshots         CompetitorSnapshot[]
+
+  @@index([organization_id])
+}
+
+model CompetitorSnapshot {
+  id                      String   @id @default(uuid())
+  created_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  competitor_id           String
+  pricing_changes         Json?
+  feature_updates         Json?
+  marketing_campaign_data Json?
+
+  competitor              Competitor @relation(fields: [competitor_id], references: [id])
+
+  @@index([competitor_id])
+}
+
+model OutreachSequence {
+  id                String   @id @default(uuid())
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  deleted_at        DateTime?
+  organization_id   String
+  name              String
+  steps             Json?
+  templates         Json?
+  automation_rules  Json?
+
+  organization      Organization @relation(fields: [organization_id], references: [id])
+  outreach_activities OutreachActivity[]
+
+  @@index([organization_id])
+}
+
+model OutreachActivity {
+  id                   String   @id @default(uuid())
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+  lead_id              String
+  sequence_id          String?
+  user_id              String?
+  activity_type        String
+  result               String?
+  ai_generated_content String?
+
+  lead       Lead            @relation(fields: [lead_id], references: [id])
+  sequence   OutreachSequence? @relation(fields: [sequence_id], references: [id])
+  user       User?           @relation(fields: [user_id], references: [id])
+  call       Call?
+
+  @@index([lead_id])
+  @@index([sequence_id])
+  @@index([user_id])
+}
+
+model Call {
+  id                   String   @id @default(uuid())
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+  outreach_activity_id String   @unique
+  recording_url        String?
+  transcript           String?
+  ai_analysis          Json?
+  coaching_suggestions Json?
+
+  outreach_activity    OutreachActivity @relation(fields: [outreach_activity_id], references: [id])
+}
+
+model Deal {
+  id                    String   @id @default(uuid())
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+  deleted_at            DateTime?
+  organization_id       String
+  lead_id               String
+  user_id               String?
+  pipeline_stage        String
+  value                 Decimal  @db.Decimal(10, 2)
+  probability_score     Float?
+  close_date_prediction DateTime?
+
+  organization          Organization @relation(fields: [organization_id], references: [id])
+  lead                  Lead        @relation(fields: [lead_id], references: [id])
+  user                  User?       @relation(fields: [user_id], references: [id])
+
+  @@index([organization_id])
+  @@index([lead_id])
+  @@index([user_id])
+}
+
