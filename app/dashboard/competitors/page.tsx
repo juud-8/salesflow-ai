@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { CompetitorDashboard } from '@/components/ui/CompetitorDashboard';
 
 interface Competitor {
   id: number;
@@ -35,6 +36,7 @@ export default function CompetitorsPage() {
       <Modal title="Add Competitor" open={open} onOpenChange={setOpen}>
         <p className="text-sm">Add competitor form placeholder.</p>
       </Modal>
+      <CompetitorDashboard />
     </div>
   );
 }
