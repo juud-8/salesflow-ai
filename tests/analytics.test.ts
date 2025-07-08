@@ -32,7 +32,7 @@ describe('calculateMetrics', () => {
       { deal_id: '3', type: 'email', date: new Date() },
     ];
     const metrics = calculateMetrics(deals, activities);
-    expect(metrics.winRate).toBeCloseTo(66.6, 1);
+    expect(metrics.winRate).toBeCloseTo(66.67, 2);
     expect(metrics.averageDealSize).toBe(850);
     expect(metrics.activityCounts.email).toBe(2);
     expect(metrics.activityCounts.call).toBe(1);

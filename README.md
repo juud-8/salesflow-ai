@@ -37,3 +37,27 @@ This project includes an email automation system powered by Resend and OpenAI. T
 ## Billing with Stripe
 
 Pricing plans are defined in Stripe and exposed via the `/pricing` page. Checkout sessions are created with `/api/billing/checkout` and customers can manage their subscriptions in the portal via `/api/billing/portal`. Webhook events from Stripe are received at `/api/webhooks/stripe` and should be configured with the signing secret from `STRIPE_WEBHOOK_SECRET`.
+
+## Testing
+
+Run unit, integration and E2E tests:
+
+```bash
+npm test        # unit and integration tests
+npm run test:e2e  # Playwright E2E tests
+```
+
+## Deployment
+
+GitHub Actions runs tests on every PR and pushes to Vercel when changes land on `main`.
+Preview deployments are created for pull requests.
+
+## Monitoring
+
+Sentry is used for error tracking. Initialize monitoring with `initMonitoring()` in your server entrypoint.
+Vercel Analytics provides performance and user metrics.
+
+## Rollback and Secrets
+
+Environment variables are managed via `.env` files and GitHub Secrets. Rotate API keys regularly and redeploy.
+In case of failed deployments, redeploy the previous stable commit from Vercel dashboard.
